@@ -29,13 +29,21 @@ impl<T> List<T> {
             node.elem
         })
     }
+
+    pub fn peek(&self) -> Option<&T> {
+        self.head.as_ref().map(|node| &node.elem)
+    }
+
+    pub fn peek_mut(&mut self) -> Option<&mut T> {
+        self.head.as_mut().map(|node| &mut node.elem)
+    }
 }
 
 impl<T> Drop for List<T> {
     fn drop(&mut self) {
         let mut current_link = self.head.take();
         while let Some(mut boxed_node) = current_link {
-          current_link = boxed_node.next.take();
+            current_link = boxed_node.next.take();
         }
     }
 }
@@ -74,5 +82,25 @@ mod test {
         // then
         assert_eq!(list.pop(), Some(1));
         assert_eq!(list.pop(), None);
+    }
+
+    #[test]
+    fn test_peek() {
+        // given
+        let mut list = List::<i32>::new();
+        // when
+        list.push(1);
+        // then
+        assert_eq!(list.peek(), Some(&1));
+    }
+
+    #[test]
+    fn test_peek_mut() {
+        // given
+        let mut list = List::<i32>::new();
+        // when
+        list.push(1);
+        // then
+        assert_eq!(list.peek_mut(), Some(&mut 1));
     }
 }
