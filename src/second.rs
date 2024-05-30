@@ -9,12 +9,12 @@ struct Node<T> {
     next: Link<T>,
 }
 
-impl List {
+impl<T> List<T> {
     pub fn new() -> Self {
         List { head: None }
     }
 
-    pub fn push(&mut self, elem: i32) {
+    pub fn push(&mut self, elem: T) {
         let new_node = Node {
             elem,
             next: self.head.take(),
@@ -23,7 +23,7 @@ impl List {
         self.head = Some(Box::new(new_node))
     }
 
-    pub fn pop(&mut self) -> Option<i32> {
+    pub fn pop(&mut self) -> Option<T> {
         self.head.take().map(|node| {
             self.head = node.next;
             node.elem
@@ -31,7 +31,7 @@ impl List {
     }
 }
 
-impl Drop for List {
+impl<T> Drop for List<T> {
     fn drop(&mut self) {
         let mut current_link = self.head.take();
         while let Some(mut boxed_node) = current_link {
@@ -47,7 +47,7 @@ mod test {
     #[test]
     fn test_empty_list() {
         // given
-        let mut list = List::new();
+        let mut list = List::<i32>::new();
         // then
         assert_eq!(list.pop(), None);
     }
@@ -55,7 +55,7 @@ mod test {
     #[test]
     fn test_removal() {
         // given
-        let mut list = List::new();
+        let mut list = List::<i32>::new();
         // when
         list.push(1);
         list.push(2);
@@ -68,7 +68,7 @@ mod test {
     #[test]
     fn test_exhaustion() {
         // given
-        let mut list = List::new();
+        let mut list = List::<i32>::new();
         // when
         list.push(1);
         // then
