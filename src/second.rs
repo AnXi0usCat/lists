@@ -100,7 +100,15 @@ mod test {
         let mut list = List::<i32>::new();
         // when
         list.push(1);
+
+
+        list.peek_mut().map(|value| {
+            *value = 42
+        });
         // then
-        assert_eq!(list.peek_mut(), Some(&mut 1));
+        assert_eq!(list.peek_mut(), Some(&mut 42));
+
+        
+
     }
 }
