@@ -152,4 +152,20 @@ mod test {
         assert_eq!(iter.next(), Some(1));
         assert_eq!(iter.next(), None);
     }
+
+    #[test]
+    fn test_iter() {
+        // given
+        let mut list = List::<i32>::new();
+        list.push(1);
+        list.push(2);
+        list.push(3);
+        // when
+        let mut iter = list.iter();
+        // then
+        assert_eq!(iter.next(), Some(&3));
+        assert_eq!(iter.next(), Some(&2));
+        assert_eq!(iter.next(), Some(&1));
+        assert_eq!(iter.next(), None);
+    }
 }
