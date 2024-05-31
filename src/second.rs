@@ -12,11 +12,11 @@ struct Node<T> {
 pub struct IntoIter<T>(List<T>);
 
 pub struct Iter<'a, T> {
-    next: Option<&'a Node<T>>
+    next: Option<&'a Node<T>>,
 }
 
 pub struct IterMut<'a, T> {
-    next: Option<&'a mut Node<T>>
+    next: Option<&'a mut Node<T>>,
 }
 
 impl<T> List<T> {
@@ -53,11 +53,15 @@ impl<T> List<T> {
     }
 
     pub fn iter<'a>(&'a self) -> Iter<'a, T> {
-        Iter { next: self.head.as_deref() }
+        Iter {
+            next: self.head.as_deref(),
+        }
     }
 
     pub fn iter_mut<'a>(&'a mut self) -> IterMut<'a, T> {
-        IterMut { next: self.head.as_deref_mut() }
+        IterMut {
+            next: self.head.as_deref_mut(),
+        }
     }
 }
 
@@ -77,7 +81,6 @@ impl<'a, T> Iterator for Iter<'a, T> {
         })
     }
 }
-
 
 impl<'a, T> Iterator for IterMut<'a, T> {
     type Item = &'a mut T;
@@ -187,7 +190,7 @@ mod test {
         assert_eq!(iter.next(), Some(&1));
         assert_eq!(iter.next(), None);
     }
-    
+
     #[test]
     fn test_iter_mut() {
         // given
