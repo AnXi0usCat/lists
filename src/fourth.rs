@@ -28,12 +28,27 @@ impl<T> List<T> {
                 old_head.borrow_mut().prev = Some(new_head.clone());
                 new_head.borrow_mut().next = Some(old_head);
                 self.head = Some(new_head);
-            },
+            }
             None => {
                 self.tail = Some(new_head.clone());
                 self.head = Some(new_head);
             }
         }
+    }
+
+    pub fn pop_front(&mut self) -> Option<T> {
+        self.head.take().map(|old_head| {
+            match old_head.borrow_mut().next.take() {
+                Some(new_head) => {
+                    new_head.borrow_mut().prev.take();
+                    self.head = Some(new_head);
+                }
+                None => {
+                    self.tail.take();
+                }
+            }
+            Rc::try_unwrap(old_head).ok().unwrap().into_inner().elem
+        })
     }
 }
 
