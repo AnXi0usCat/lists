@@ -61,3 +61,17 @@ impl<T> Node<T> {
         }))
     }
 }
+
+
+#[cfg(test)]
+mod test {
+    use super::List;
+
+    #[test]
+    fn test_empty_list() {
+        // given
+        let mut list = List::<i32>::new();
+        // then
+        assert_eq!(list.pop_front(), None);
+    }
+}
