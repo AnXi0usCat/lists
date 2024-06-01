@@ -61,3 +61,43 @@ impl<T> Node<T> {
         }))
     }
 }
+
+#[cfg(test)]
+mod test {
+    use super::List;
+
+    #[test]
+    fn test_empty_list() {
+        // given
+        let mut list = List::<i32>::new();
+        // then
+        assert_eq!(list.pop_front(), None);
+    }
+
+    #[test]
+    fn test_populate() {
+        // given
+        let mut list = List::<i32>::new();
+        // when
+        list.push_front(1);
+        list.push_front(2);
+        list.push_front(3);
+        // then
+        assert_eq!(list.pop_front(), Some(3));
+    }
+
+    #[test]
+    fn test_exhaustion() {
+        // given
+        let mut list = List::<i32>::new();
+        // when
+        list.push_front(1);
+        list.push_front(2);
+        list.push_front(3);
+        // then
+        assert_eq!(list.pop_front(), Some(3));
+        assert_eq!(list.pop_front(), Some(2));
+        assert_eq!(list.pop_front(), Some(1));
+        assert_eq!(list.pop_front(), None);
+    }
+}
